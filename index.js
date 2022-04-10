@@ -148,5 +148,5 @@ async function ping (memberlist, debugMode = false) {
 //     }
 // }
 
-// core.info("Action started.")
+core.info("Action started.")
 // main().then(() => core.info('Action done')).catch(e => core.setFailed(e.message));
