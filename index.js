@@ -108,8 +108,7 @@ async function main () {
         const memberList = service.parseMemberList(memberListRaw);
     
         core.info("\nChecking");
-        const invalidList = service.ping(memberList.slice(0, 40), true);
-        console.log(invalidList instanceof Array);
+        const invalidList = service.ping(memberList, true);
     
         if(invalidList.length === 0) {
             core.info("Didn't find any members' website is invalid.");
