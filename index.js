@@ -50,7 +50,7 @@ function parseMemberList (rawMemberList) {
  */
 async function ping (memberlist, debugMode = false) {
     core.info("\n========== Checking Members' Website ==============");
-    let invalidList = []
+    let invalidList = new Array();
     for(const member of memberlist) {
         if(debugMode) {
             core.info("===========================================================");
