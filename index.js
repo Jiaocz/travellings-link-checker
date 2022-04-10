@@ -1,6 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fetch = require("node-fetch");
+const Agent = require("node:https");
 
 core.info("Action Started 01");
 
@@ -57,7 +58,8 @@ async function ping (memberlist, debugMode = false) {
             core.info(`Checking No.${member.id}: ${member.name} - ${member.link}`);
         }
         try {
-            const resp = await fetch(member.link, {headers: {"User-Agent": "Mozilla/5.0 Travellings-Link HTTP Client"}});
+            const agent = new Agent.Agent({ rejectUnauthorized: false });
+            const resp = await fetch(member.link, {headers: {"User-Agent": "Mozilla/5.0 Travellings-Link HTTP Client"}, agent});
             const body = await resp.text();
             if(body.toLowerCase().indexOf("travelling") === -1) {
                 if (debugMode) {
