@@ -109,6 +109,8 @@ async function main () {
     
         core.info("\nChecking");
         const invalidList = service.ping(memberList, true);
+        
+        core.info(JSON.stringify(invalidList));
     
         if(invalidList.length === 0) {
             core.info("Didn't find any members' website is invalid.");
@@ -124,9 +126,9 @@ async function main () {
         `| 序号 | 名称 | 网址 | 检查结果 | 处理状态 |
         | ---- | ---- | ---- | ---- | ---- |\n`;
 
-        for(const member of invalidList) {
-            issueContent += `| ${member.id} | ${member.name} | ${member.link} | ${member.status} | - [ ] |\n`;
-        }
+        // for(const member of invalidList) {
+        //     issueContent += `| ${member.id} | ${member.name} | ${member.link} | ${member.status} | - [ ] |\n`;
+        // }
     
         issueContent += "\n\n**注意1： 结果为\`QUIT *\`的成员检查结果需复查，因为当前的检查仅为简单的检查，如果成员的网站为后渲染网站，将会检查为QUIT *！**";
         issueContent += "\n\n**注意2： 由于是由Github Action提供自动化检测，网站可能因为屏蔽国外IP被检测为无法打开。**";
