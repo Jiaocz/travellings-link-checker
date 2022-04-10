@@ -106,7 +106,7 @@ async function main () {
     
         core.info("\nParsing Members");
         const memberList = service.parseMemberList(memberListRaw);
-        core.info(memberList);
+        core.info(JSON.stringify(memberList));
     
         core.info("\nChecking")
         const invalidList = [];
