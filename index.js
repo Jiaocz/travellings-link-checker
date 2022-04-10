@@ -8,8 +8,14 @@ try {
     const labels = core.getInput('labels');
     const octokit = github.getOctokit(repoToken);
 
+    console.log("\nGetting MemberList");
     const memberListRaw = await service.getMemberList(memberListLink);
+
+    console.log("\nParsing Members");
     const memberList = service.parseMemberList(memberListRaw);
+    console.log(memberList);
+
+    console.log("\nChecking")
     const invalidList = await service.ping(memberList);
 
     if(invalidList.length === 0) {

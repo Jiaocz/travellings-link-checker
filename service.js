@@ -6,6 +6,7 @@ import fetch from 'node-fetch';
  * @returns {string} The raw content of the member list to be parsed.
  */
 const getMemberList = async (listLink) => {
+    console.log("\n========== Getting Member List Raw Text ==============");
     const resp = await fetch(listLink);
     const text = await resp.text();
     return text;
@@ -17,6 +18,7 @@ const getMemberList = async (listLink) => {
  * @returns {{id: string, name: string, link: string}[]}  
  */
 const parseMemberList = (rawMemberList) => {
+    console.log("\n========== Parsing Member List ==============");
     const memberList = rawMemberList.split("\n");
     let result = [];
     memberList.forEach(oneLine => {
@@ -43,6 +45,7 @@ const parseMemberList = (rawMemberList) => {
  * @returns {{id: string, name: string, link: string, status: string}[]} Invalid member array.
  */
 const ping = async (memberlist, debugMode = false) => {
+    console.log("\n========== Checking Members' Website ==============");
     let invalidList = []
     for(const member of memberlist) {
         if(debugMode) {
