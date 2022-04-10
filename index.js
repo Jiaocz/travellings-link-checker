@@ -2,7 +2,7 @@ const github = require('@actions/github');
 const core = require("@actions/core");
 const fetch = require("node-fetch");
 
-console.log("Action Started 01");
+core.info("Action Started 01");
 
 /**
  * Get the raw member list from the project.
@@ -10,7 +10,7 @@ console.log("Action Started 01");
  * @returns {string} The raw content of the member list to be parsed.
  */
 async function getMemberList (listLink)  {
-    console.log("\n========== Getting Member List Raw Text ==============");
+    core.info("\n========== Getting Member List Raw Text ==============");
     const resp = await fetch(listLink);
     const text = await resp.text();
     return text;
@@ -22,7 +22,7 @@ async function getMemberList (listLink)  {
  * @returns {{id: string, name: string, link: string}[]}  
  */
 function parseMemberList (rawMemberList) {
-    console.log("\n========== Parsing Member List ==============");
+    core.info("\n========== Parsing Member List ==============");
     const memberList = rawMemberList.split("\n");
     let result = [];
     memberList.forEach(oneLine => {
@@ -49,19 +49,19 @@ function parseMemberList (rawMemberList) {
  * @returns {{id: string, name: string, link: string, status: string}[]} Invalid member array.
  */
 async function ping (memberlist, debugMode = false) {
-    console.log("\n========== Checking Members' Website ==============");
+    core.info("\n========== Checking Members' Website ==============");
     let invalidList = []
     for(const member of memberlist) {
         if(debugMode) {
-            console.log("===========================================================");
-            console.log(`Checking ${member.name}, ${member.link}`);
+            core.info("===========================================================");
+            core.info(`Checking ${member.name}, ${member.link}`);
         }
         try {
             const resp = await fetch(member.link, {headers: {"User-Agent": "Mozilla/5.0 Travellings-Link HTTP Client"}});
             const body = await resp.text();
             if(body.toLowerCase().indexOf("travelling") === -1) {
                 if (debugMode) {
-                    console.log(`${member.name}: ${member.link} deleted travelling link`);
+                    core.info(`${member.name}: ${member.link} deleted travelling link`);
                 }
                 invalidList.push({
                     id: member.id,
@@ -70,11 +70,11 @@ async function ping (memberlist, debugMode = false) {
                     status: "QUIT *",
                 })
             } else if (debugMode) {
-                console.log(`${member.name}: ${member.link} OK`);
+                core.info(`${member.name}: ${member.link} OK`);
             }
         } catch (error) {
             if(debugMode) {
-                console.log(`${member.name}: ${member.link} has error ${error.code}`);
+                core.info(`${member.name}: ${member.link} has error ${error.code}`);
             }
             invalidList.push({
                 id: member.id,
@@ -84,34 +84,35 @@ async function ping (memberlist, debugMode = false) {
             })
         }
         if(debugMode) {
-            console.log("===========================================================\n");
+            core.info("===========================================================\n");
         }
     }
     return invalidList;
 }
 
 const service = { getMemberList, parseMemberList, ping };
+exports.service = service;
 
 async function main () {
     try {
-        console.log("Starting...");
+        core.info("Starting...");
         const memberListLink = core.getInput('member-list');
         const repoToken = core.getInput('repo-token');
         const labels = core.getInput('labels');
         const octokit = github.getOctokit(repoToken);
     
-        console.log("\nGetting MemberList");
+        core.info("\nGetting MemberList");
         const memberListRaw = await service.getMemberList(memberListLink);
     
-        console.log("\nParsing Members");
+        core.info("\nParsing Members");
         const memberList = service.parseMemberList(memberListRaw);
-        console.log(memberList);
+        core.info(memberList);
     
-        console.log("\nChecking")
+        core.info("\nChecking")
         const invalidList = await service.ping(memberList);
     
         if(invalidList.length === 0) {
-            console.log("Didn't find any members' website is invalid.");
+            core.info("Didn't find any members' website is invalid.");
             process.exit(0);
         }
     
@@ -147,5 +148,5 @@ async function main () {
     }
 }
 
-console.log("Action started.")
+core.info("Action started.")
 main();

@@ -1,4 +1,4 @@
-const { getMemberList, parseMemberList, ping } = require('./service.js');
+const { getMemberList, parseMemberList, ping } = require('./index.js');
 
 async function main () {
     console.log("Getting MemberList");
