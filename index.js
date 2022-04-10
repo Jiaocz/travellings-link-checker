@@ -1,6 +1,6 @@
-import github from "@actions/github";
-import core from "@actions/core";
-import service from "./service.js";
+const github = require('@actions/github');
+const core = require("@actions/core");
+const service = require("./service.js");
 
 async function main () {
     try {
@@ -42,7 +42,7 @@ async function main () {
         issueContent += "\n\n**注意2： 由于是由Github Action提供自动化检测，网站可能因为屏蔽国外IP被检测为无法打开。**";
         issueContent += "\n\n**注意3： 检测用 User Agent 为： \`Mozilla/5.0 Travellings-Link HTTP Client\`，请站长不要屏蔽此 UA**";
     
-        issueTitle = `开往-友联接力 - ${new Date().toLocaleDateString()} 成员检查报告`;
+        let issueTitle = `开往-友联接力 - ${new Date().toLocaleDateString()} 成员检查报告`;
     
         await octokit.issues.create({
             owner: github.context.payload.repository.owner.login,
@@ -57,4 +57,5 @@ async function main () {
     }
 }
 
+console.log("Action started.")
 main();

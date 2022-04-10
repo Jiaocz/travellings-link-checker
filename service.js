@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+const fetch = require("node-fetch");
 
 /**
  * Get the raw member list from the project.
@@ -86,8 +86,6 @@ const ping = async (memberlist, debugMode = false) => {
     return invalidList;
 }
 
-export default {
-    getMemberList,
-    parseMemberList,
-    ping,
-}
+exports.getMemberList = getMemberList;
+exports.parseMemberList = parseMemberList;
+exports.ping = ping;

@@ -1,11 +1,15 @@
-import service from "./service.js";
+const { getMemberList, parseMemberList, ping } = require('./service.js');
 
-console.log("Getting MemberList");
-const memberList = await service.getMemberList("https://github.js.cool/travellings-link/travellings/raw/master/member.md");
+async function main () {
+    console.log("Getting MemberList");
+    const memberList = await getMemberList("https://github.js.cool/travellings-link/travellings/raw/master/member.md");
 
-console.log("Parsing Members");
-const members = service.parseMemberList(memberList);
+    console.log("Parsing Members");
+    const members = parseMemberList(memberList);
 
-console.log("Checking")
-const invalids = await service.ping(members, true);
-console.log(invalids);
+    console.log("Checking")
+    const invalids = await ping(members, true);
+    console.log(invalids);
+}
+
+main();
