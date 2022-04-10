@@ -9,6 +9,9 @@ inputs:
     description: "The GitHub Token"
     required: false
     default: ${{ github.token }}
+  labels:
+    description: "Label of the Issue, split by comma"
+    required: false
 
 runs:
   using: 'node16'

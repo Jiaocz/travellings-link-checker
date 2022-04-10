@@ -98,6 +98,14 @@ async function main () {
         core.info("Starting...");
         const memberListLink = core.getInput('member-list');
         const repoToken = core.getInput('repo-token');
+        const labels = core.getInput('labels');
+        let labelArray = [];
+        if (labels === null || labels === "") {
+            labelArray = null;
+        } else {
+            labelArray = labels.split(/\s*,\s*/);
+        }
+
         const octokit = github.getOctokit(repoToken);
     
         core.info("\nGetting MemberList");
@@ -130,12 +138,22 @@ async function main () {
     
         let issueTitle = `开往-友联接力 - ${new Date().toLocaleDateString()} 成员检查报告`;
     
-        await octokit.rest.issues.create({
-            owner: github.context.payload.repository.owner.login,
-            repo: github.context.payload.repository.name,
-            title: issueTitle,
-            body: issueContent,
-        });
+        if (labelArray) {
+            await octokit.rest.issues.create({
+                owner: github.context.payload.repository.owner.login,
+                repo: github.context.payload.repository.name,
+                title: issueTitle,
+                body: issueContent,
+                labels: labelArray,
+            });
+        } else {
+            await octokit.rest.issues.create({
+                owner: github.context.payload.repository.owner.login,
+                repo: github.context.payload.repository.name,
+                title: issueTitle,
+                body: issueContent,
+            });
+        }
     
     } catch (e) {
         core.setFailed(e.message)
