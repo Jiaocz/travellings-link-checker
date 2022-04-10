@@ -54,7 +54,7 @@ async function ping (memberlist, debugMode = false) {
     for(const member of memberlist) {
         if(debugMode) {
             core.info("===========================================================");
-            core.info(`Checking ${member.name}, ${member.link}`);
+            core.info(`Checking No.${member.id}: ${member.name} - ${member.link}`);
         }
         try {
             const resp = await fetch(member.link, {headers: {"User-Agent": "Mozilla/5.0 Travellings-Link HTTP Client"}});
