@@ -106,10 +106,10 @@ async function main () {
     
         core.info("\nParsing Members");
         const memberList = service.parseMemberList(memberListRaw);
-        core.info(JSON.stringify(memberList));
+        // core.info(JSON.stringify(memberList));
     
         core.info("\nChecking")
-        const invalidList = [];
+        const invalidList = service.ping(memberList.slice(0, 50), true);
     
         if(invalidList.length === 0) {
             core.info("Didn't find any members' website is invalid.");
