@@ -51,8 +51,7 @@ function parseMemberList (rawMemberList) {
 async function ping (memberlist, debugMode = false) {
     core.info("\n========== Checking Members' Website ==============");
     let invalidList = []
-    for(let i = 0; i < memberlist.length; i++) {
-        let member = memberlist[i];
+    for(const member of memberlist) {
         if(debugMode) {
             core.info("===========================================================");
             core.info(`Checking ${member.name}, ${member.link}`);
@@ -125,10 +124,10 @@ async function main () {
         issueContent += 
         `| 序号 | 名称 | 网址 | 检查结果 | 处理状态 |
         | ---- | ---- | ---- | ---- | ---- |\n`;
-    
-        invalidList.forEach(member => {
+
+        for(const member of invalidList) {
             issueContent += `| ${member.id} | ${member.name} | ${member.link} | ${member.status} | - [ ] |\n`;
-        });
+        }
     
         issueContent += "\n\n**注意1： 结果为\`QUIT *\`的成员检查结果需复查，因为当前的检查仅为简单的检查，如果成员的网站为后渲染网站，将会检查为QUIT *！**";
         issueContent += "\n\n**注意2： 由于是由Github Action提供自动化检测，网站可能因为屏蔽国外IP被检测为无法打开。**";
