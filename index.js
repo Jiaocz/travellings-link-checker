@@ -6,7 +6,7 @@ try {
     const memberListLink = core.getInput('member-list');
     const repoToken = core.getInput('repo-token');
     const labels = core.getInput('labels');
-    const octokit = new github.GitHub(repoToken);
+    const octokit = github.getOctokit(repoToken);
 
     const memberListRaw = await service.getMemberList(memberListLink);
     const memberList = service.parseMemberList(memberListRaw);
