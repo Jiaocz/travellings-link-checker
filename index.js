@@ -35,9 +35,9 @@ function parseMemberList (rawMemberList) {
                 id: splited[1],
                 name: splited[3],
                 link: splited[4],
-            })
+            });
         }
-    })
+    });
     result.sort((a, b) => Number.parseInt(a.id) - Number.parseInt(b.id));
     return result;
 }
@@ -50,7 +50,7 @@ function parseMemberList (rawMemberList) {
  */
 async function ping (memberlist, debugMode = false) {
     core.info("\n========== Checking Members' Website ==============");
-    let invalidList = new Array();
+    let invalidList = [];
     for(const member of memberlist) {
         if(debugMode) {
             core.info("===========================================================");
@@ -68,7 +68,7 @@ async function ping (memberlist, debugMode = false) {
                     name: member.name,
                     link: member.link,
                     status: "QUIT *",
-                })
+                });
             } else if (debugMode) {
                 core.info(`${member.name}: ${member.link} OK`);
             }
@@ -81,7 +81,7 @@ async function ping (memberlist, debugMode = false) {
                 name: member.name,
                 link: member.link,
                 status: error.code,
-            })
+            });
         }
         if(debugMode) {
             core.info("===========================================================\n");
@@ -106,9 +106,8 @@ async function main () {
     
         core.info("\nParsing Members");
         const memberList = service.parseMemberList(memberListRaw);
-        // core.info(JSON.stringify(memberList));
     
-        core.info("\nChecking")
+        core.info("\nChecking");
         const invalidList = service.ping(memberList.slice(0, 40), true);
         console.log(invalidList instanceof Array);
     
