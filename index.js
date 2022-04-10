@@ -150,3 +150,5 @@ exports.service = service;
 
 core.info("Action started.")
 // main().then(() => core.info('Action done')).catch(e => core.setFailed(e.message));
+console.log(core.getInput('member-list'));
+console.log(core.getInput('labels'));
