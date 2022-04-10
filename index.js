@@ -109,7 +109,7 @@ async function main () {
         // core.info(JSON.stringify(memberList));
     
         core.info("\nChecking")
-        const invalidList = service.ping(memberList.slice(0, 50), true);
+        const invalidList = service.ping(memberList.slice(0, 40), true);
         console.log(typeof invalidList);
     
         if(invalidList.length === 0) {
