@@ -9,9 +9,6 @@ inputs:
     description: "The GitHub Token"
     required: false
     default: ${{ github.token }}
-  labels:
-    description: "Labels to add when create issue, separated by comma"
-    required: false
 
 runs:
   using: 'node16'

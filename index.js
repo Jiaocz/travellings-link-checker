@@ -98,7 +98,6 @@ async function main () {
         core.info("Starting...");
         const memberListLink = core.getInput('member-list');
         const repoToken = core.getInput('repo-token');
-        const labels = core.getInput('labels');
         const octokit = github.getOctokit(repoToken);
     
         core.info("\nGetting MemberList");
@@ -139,7 +138,6 @@ async function main () {
             repo: github.context.payload.repository.name,
             title: issueTitle,
             body: issueContent,
-            labels: labels.split(/,\s*/),
         });
     
     } catch (e) {
