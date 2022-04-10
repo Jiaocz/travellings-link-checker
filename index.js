@@ -110,6 +110,7 @@ async function main () {
     
         core.info("\nChecking")
         const invalidList = service.ping(memberList.slice(0, 50), true);
+        console.log(typeof invalidList);
     
         if(invalidList.length === 0) {
             core.info("Didn't find any members' website is invalid.");
