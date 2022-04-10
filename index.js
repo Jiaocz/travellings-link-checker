@@ -107,7 +107,7 @@ async function main () {
         const memberList = service.parseMemberList(memberListRaw);
     
         core.info("\nChecking");
-        const invalidList = await service.ping(memberList.slice(0, 40), true);
+        const invalidList = await service.ping(memberList, true);
     
         if(invalidList.length === 0) {
             core.info("Didn't find any members' website is invalid.");
@@ -115,19 +115,16 @@ async function main () {
         }
     
         let issueContent = 
-        `## 开往-友联接力 - ${new Date().toLocaleDateString()} 成员检查报告
-        
-        共有 ${invalidList.length} 位成员的网站出现问题，请维护员检查！\n\n`;
+        `## 开往-友联接力 - ${new Date().toLocaleDateString()} 成员检查报告\n\n共有 ${invalidList.length} 位成员的网站出现问题，请维护员检查！\n\n`;
     
         issueContent += 
-        `| 序号 | 名称 | 网址 | 检查结果 | 处理状态 |
-        | ---- | ---- | ---- | ---- | ---- |\n`;
+        `| 序号 | 名称 | 网址 | 检查结果 |\n| ---- | ---- | ---- | ---- |\n`;
 
         for(const member of invalidList) {
-            issueContent += `| ${member.id} | ${member.name} | ${member.link} | ${member.status} | - [ ] |\n`;
+            issueContent += `| ${member.id} | ${member.name} | ${member.link} | ${member.status} |\n`;
         }
     
-        issueContent += "\n\n**注意1： 结果为\`QUIT *\`的成员检查结果需复查，因为当前的检查仅为简单的检查，如果成员的网站为后渲染网站，将会检查为QUIT *！**";
+        issueContent += "\n\n**注意1： 结果为\`QUIT *\`的成员检查结果需复查，因为当前的检查仅为简单的检查，如果成员的网站为后渲染网站，将会检查为QUIT \\*！**";
         issueContent += "\n\n**注意2： 由于是由Github Action提供自动化检测，网站可能因为屏蔽国外IP被检测为无法打开。**";
         issueContent += "\n\n**注意3： 检测用 User Agent 为： \`Mozilla/5.0 Travellings-Link HTTP Client\`，请站长不要屏蔽此 UA**";
     
