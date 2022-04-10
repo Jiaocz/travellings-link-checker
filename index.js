@@ -90,8 +90,8 @@ async function ping (memberlist, debugMode = false) {
     return invalidList;
 }
 
-// const service = { getMemberList, parseMemberList, ping };
-// exports.service = service;
+const service = { getMemberList, parseMemberList, ping };
+exports.service = service;
 
 // async function main () {
 //     try {
