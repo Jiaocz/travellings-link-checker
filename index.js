@@ -108,7 +108,7 @@ async function main () {
         const memberList = service.parseMemberList(memberListRaw);
     
         core.info("\nChecking");
-        const invalidList = service.ping(memberList, true);
+        const invalidList = service.ping(memberList.slice(0, 40), true);
         
         core.info(JSON.stringify(invalidList));
     
