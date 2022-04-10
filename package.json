@@ -1,0 +1,26 @@
+{
+  "name": "travellings-checker",
+  "version": "1.0.0",
+  "description": "Check if Links is accessable and with travellings.link links.",
+  "homepage": "https://travellings.link/",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": {
+    "name": "Orangii|橙梓",
+    "email": "me@orangii.cn",
+    "url": "https://orangii.cn/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jiaocz/travellings-link-checker"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.1",
+    "node-fetch": "^3.2.3"
+  },
+  "type": "module"
+}

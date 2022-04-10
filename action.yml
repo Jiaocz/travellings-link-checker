@@ -1,0 +1,18 @@
+name: 'Travellings Link checker'
+description: 'Check if links joined Travellings-Link is accessable and has links added.'
+inputs:
+  member-list:
+    description: "Links to the member list raw markdown file"
+    required: false
+    default: "https://raw.githubusercontent.com/travellings-link/travellings/master/member.md"
+  repo-token:
+    description: "The GitHub Token"
+    required: false
+    default: ${{ github.token }}
+  labels:
+    description: "Labels to add when create issue, separated by comma"
+    required: false
+
+runs:
+  using: 'node17'
+  main: 'index.js'
