@@ -150,6 +150,8 @@ exports.service = service;
 
 core.info("Action started.")
 // main().then(() => core.info('Action done')).catch(e => core.setFailed(e.message));
-const link = core.getInput('member-list');
-const memberlistraw = await service.getMemberList(link);
-console.log(memberlistraw);
+(async function () {
+    const link = core.getInput('member-list');
+    const memberlistraw = await service.getMemberList(link);
+    console.log(memberlistraw);
+})();
