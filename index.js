@@ -4,91 +4,91 @@ const fetch = require("node-fetch");
 
 core.info("Action Started 01");
 
-// /**
-//  * Get the raw member list from the project.
-//  * @param {string} listLink The link of the raw member list.
-//  * @returns {string} The raw content of the member list to be parsed.
-//  */
-// async function getMemberList (listLink)  {
-//     core.info("\n========== Getting Member List Raw Text ==============");
-//     const resp = await fetch(listLink);
-//     const text = await resp.text();
-//     return text;
-// }
+/**
+ * Get the raw member list from the project.
+ * @param {string} listLink The link of the raw member list.
+ * @returns {string} The raw content of the member list to be parsed.
+ */
+async function getMemberList (listLink)  {
+    core.info("\n========== Getting Member List Raw Text ==============");
+    const resp = await fetch(listLink);
+    const text = await resp.text();
+    return text;
+}
 
-// /**
-//  * Parse the raw member list to a list of members.
-//  * @param {string} rawMemberList
-//  * @returns {{id: string, name: string, link: string}[]}  
-//  */
-// function parseMemberList (rawMemberList) {
-//     core.info("\n========== Parsing Member List ==============");
-//     const memberList = rawMemberList.split("\n");
-//     let result = [];
-//     memberList.forEach(oneLine => {
-//         if(/^\| [0-9]+ \| .+ \| .+ \| .+ \|$/i.test(oneLine)) {
-//             const splited = oneLine.split(/\s?\|\s?/);
-//             if(splited[2] === "LOST" || splited[2] === "SSL" || splited[2] === "ERROR" || splited[2] === "BROKEN" || splited[2] === "QUIT") {
-//                 return;
-//             }
-//             result.push({
-//                 id: splited[1],
-//                 name: splited[3],
-//                 link: splited[4],
-//             })
-//         }
-//     })
-//     result.sort((a, b) => Number.parseInt(a.id) - Number.parseInt(b.id));
-//     return result;
-// }
+/**
+ * Parse the raw member list to a list of members.
+ * @param {string} rawMemberList
+ * @returns {{id: string, name: string, link: string}[]}  
+ */
+function parseMemberList (rawMemberList) {
+    core.info("\n========== Parsing Member List ==============");
+    const memberList = rawMemberList.split("\n");
+    let result = [];
+    memberList.forEach(oneLine => {
+        if(/^\| [0-9]+ \| .+ \| .+ \| .+ \|$/i.test(oneLine)) {
+            const splited = oneLine.split(/\s?\|\s?/);
+            if(splited[2] === "LOST" || splited[2] === "SSL" || splited[2] === "ERROR" || splited[2] === "BROKEN" || splited[2] === "QUIT") {
+                return;
+            }
+            result.push({
+                id: splited[1],
+                name: splited[3],
+                link: splited[4],
+            })
+        }
+    })
+    result.sort((a, b) => Number.parseInt(a.id) - Number.parseInt(b.id));
+    return result;
+}
 
-// /**
-//  * Validate if those members' website is valid.
-//  * @param {{id: string, name: string, link: string}[]} memberlist Member array to check
-//  * @param {boolean} debugMode Whether to print debug info
-//  * @returns {{id: string, name: string, link: string, status: string}[]} Invalid member array.
-//  */
-// async function ping (memberlist, debugMode = false) {
-//     core.info("\n========== Checking Members' Website ==============");
-//     let invalidList = []
-//     for(const member of memberlist) {
-//         if(debugMode) {
-//             core.info("===========================================================");
-//             core.info(`Checking ${member.name}, ${member.link}`);
-//         }
-//         try {
-//             const resp = await fetch(member.link, {headers: {"User-Agent": "Mozilla/5.0 Travellings-Link HTTP Client"}});
-//             const body = await resp.text();
-//             if(body.toLowerCase().indexOf("travelling") === -1) {
-//                 if (debugMode) {
-//                     core.info(`${member.name}: ${member.link} deleted travelling link`);
-//                 }
-//                 invalidList.push({
-//                     id: member.id,
-//                     name: member.name,
-//                     link: member.link,
-//                     status: "QUIT *",
-//                 })
-//             } else if (debugMode) {
-//                 core.info(`${member.name}: ${member.link} OK`);
-//             }
-//         } catch (error) {
-//             if(debugMode) {
-//                 core.info(`${member.name}: ${member.link} has error ${error.code}`);
-//             }
-//             invalidList.push({
-//                 id: member.id,
-//                 name: member.name,
-//                 link: member.link,
-//                 status: error.code,
-//             })
-//         }
-//         if(debugMode) {
-//             core.info("===========================================================\n");
-//         }
-//     }
-//     return invalidList;
-// }
+/**
+ * Validate if those members' website is valid.
+ * @param {{id: string, name: string, link: string}[]} memberlist Member array to check
+ * @param {boolean} debugMode Whether to print debug info
+ * @returns {{id: string, name: string, link: string, status: string}[]} Invalid member array.
+ */
+async function ping (memberlist, debugMode = false) {
+    core.info("\n========== Checking Members' Website ==============");
+    let invalidList = []
+    for(const member of memberlist) {
+        if(debugMode) {
+            core.info("===========================================================");
+            core.info(`Checking ${member.name}, ${member.link}`);
+        }
+        try {
+            const resp = await fetch(member.link, {headers: {"User-Agent": "Mozilla/5.0 Travellings-Link HTTP Client"}});
+            const body = await resp.text();
+            if(body.toLowerCase().indexOf("travelling") === -1) {
+                if (debugMode) {
+                    core.info(`${member.name}: ${member.link} deleted travelling link`);
+                }
+                invalidList.push({
+                    id: member.id,
+                    name: member.name,
+                    link: member.link,
+                    status: "QUIT *",
+                })
+            } else if (debugMode) {
+                core.info(`${member.name}: ${member.link} OK`);
+            }
+        } catch (error) {
+            if(debugMode) {
+                core.info(`${member.name}: ${member.link} has error ${error.code}`);
+            }
+            invalidList.push({
+                id: member.id,
+                name: member.name,
+                link: member.link,
+                status: error.code,
+            })
+        }
+        if(debugMode) {
+            core.info("===========================================================\n");
+        }
+    }
+    return invalidList;
+}
 
 // const service = { getMemberList, parseMemberList, ping };
 // exports.service = service;
